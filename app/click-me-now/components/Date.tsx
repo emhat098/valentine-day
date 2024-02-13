@@ -1,12 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 
 const Date = () => {
   const router = useRouter();
+  const [pending, setPending] = useState(false);
   const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setPending(true);
     const formData = new FormData(e.currentTarget);
     const date = formData.get("date");
     const data = {
@@ -19,6 +21,7 @@ const Date = () => {
     });
     const result = await res.json();
     if (result) {
+      setPending(false);
       router.push("/choose-foods");
     } else {
       alert("Something went wrong. Please try again.");
@@ -37,9 +40,10 @@ const Date = () => {
         />
         <button
           type={"submit"}
+          disabled={pending}
           className={"py-2 px-6 bg-red-300 rounded-lg hover:bg-red-500"}
         >
-          Submit
+          {pending ? "Loading ..." : "Submit"}
         </button>
       </div>
     </form>

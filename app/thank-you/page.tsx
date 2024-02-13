@@ -8,7 +8,7 @@ const Thankyou = () => {
         {`See you later. <3`}
       </h2>
       <iframe
-        src="https://giphy.com/embed/jB1CWekm7ooSoTfyB9"
+        src="https://giphy.com/embed/9O0N8wt23OtOTzVn2m"
         width="360"
         height="480"
         frameBorder="0"

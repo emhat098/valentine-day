@@ -2,7 +2,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 
 const dessertData = [
   {
@@ -51,8 +51,10 @@ const dessertData = [
 
 const Dessert = () => {
   const router = useRouter();
+  const [pending, setPending] = useState(false);
   const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setPending(true);
     const formData = new FormData(e.currentTarget);
     const foods = formData.getAll("dessert");
     const note = formData.get("note");
@@ -69,6 +71,7 @@ const Dessert = () => {
     });
     const result = await res.json();
     if (result) {
+      setPending(false);
       router.push("/choose-place");
     } else {
       alert("Something went wrong. Please try again.");
@@ -115,9 +118,10 @@ const Dessert = () => {
       </div>
       <button
         type={"submit"}
+        disabled={pending}
         className={"py-2 px-6 bg-red-300 rounded-lg hover:bg-red-500 w-max"}
       >
-        Submit
+        {pending ? "Loading ..." : "Submit"}
       </button>
     </form>
   );
